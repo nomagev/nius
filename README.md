@@ -3,6 +3,7 @@
 ![Platform](https://img.shields.io/badge/platform-macOS%20|%20Linux-lightgrey.svg)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 ![Maintained](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
+[![Nius.py Tests](https://github.com/nomagev/nius/actions/workflows/python-tests.yml/badge.svg)](https://github.com/nomagev/nius/actions/workflows/python-tests.yml)
 
 # NIUS.py
 > A minimalist, terminal-based Hacker News browser for the distraction-free developer.
