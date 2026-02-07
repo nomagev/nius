@@ -12,9 +12,20 @@ Nius.py (pronounced "News PY") is a lightweight Python utility designed to brows
 
 ![Nius Terminal Screenshot](img/nius-screenshot.jpeg)
 
-## Quick Start
+## Requirements
 
-Ensure you are on a Unix-based system (macOS/Linux).
+### System
+
+* **Operating System**: Unix-like (macOS or Linux). 
+  > *Note: Windows users will need WSL (Windows Subsystem for Linux) as the terminal 'raw mode' requires `termios`.*
+* **Python**: Version 3.10 or higher.
+
+### Python Libraries
+Nius is designed to be lightweight. It relies on the following:
+* `requests`: For fetching live data from the Hacker News API.
+* `Standard Library`: Uses built-in modules (`os`, `sys`, `time`, `html`, `tty`, `termios`)—no extra installation required for these.
+
+## Quick Start
 
 1. **Clone and Enter:**
    ```bash
@@ -27,6 +38,7 @@ Ensure you are on a Unix-based system (macOS/Linux).
     ./setup.sh
 
 3. **Launch:**
+    ```bash
     ./run.sh
 
 ## Features
