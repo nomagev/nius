@@ -49,7 +49,7 @@ Nius is designed to be lightweight. It relies on the following:
 
 ## Controls
 - `[Number]`: Select story
-- `[ESC]`: Next comment
+- `[SPACE BAR]`: Next comment
 - `[B]`: Back to feed
 - `[Q]`: Quit
 

@@ -18,8 +18,8 @@ import art  # Local import for ASCII assets
 # --- CONFIGURATION ---
 BASE_URL = "https://hacker-news.firebaseio.com/v0"
 DEFAULT_STORY_LIMIT = 10
-DELAY_NORMAL = 0.017
-DELAY_FAST = 0.010
+DELAY_NORMAL = 0.020
+DELAY_FAST = 0.013
 
 # --- UI UTILITIES ---
 
@@ -89,6 +89,10 @@ def format_hn_text(raw_html):
 
 def display_comments(comment_ids):
     """Renders comments with ESC/B navigation and Q to Quit."""
+    # ADD THIS LINE TO CLEAR THE GHOST 'ENTER' FROM MAIN MENU
+    if sys.stdin.isatty():
+        termios.tcflush(sys.stdin, termios.TCIFLUSH)
+
     if not comment_ids:
         print("No comments found.")
         return 
@@ -110,19 +114,22 @@ def display_comments(comment_ids):
                 slow_print(line, delay=DELAY_NORMAL)
         
         print(f"\n{'='*30}")
-        print("[ESC] Next | [B] Back to Feed | [Q] Quit")
+        print("[SPACE] Next | [B] Back to Feed | [Q] Quit")
         print(f"{'='*30}")
 
         # Input loop for comment navigation
         while True:
-            cmd = get_char().lower() # Normalize to lowercase
-            if cmd == '\x1b':  # ESC
-                break
-            elif cmd == 'b':   # Back to Feed
-                return 
-            elif cmd == 'q':   # Global Quit
+            cmd = get_char().lower() 
+            if cmd == ' ':  # Space bar
+                break # Moves to the next comment in the 'for' loop
+            elif cmd == 'b':   
+                return # Exits back to main feed
+            elif cmd == 'q':   
                 print("\nStay curious. Goodbye!")
-                sys.exit(0) # Immediately stops the script 
+                sys.exit(0)
+            # Optional: help the user if they press the wrong key
+            else:
+                continue
     
     input("\n--- End of thread. Press Enter to return ---")
 
@@ -167,16 +174,26 @@ def main():
             if 0 <= selection_index < len(current_stories):
                 selected_story = current_stories[selection_index]
                 
+                comment_ids = selected_story.get('kids', [])
+                
+                # 1. Check for empty comments FIRST
+                if not comment_ids:
+                    print(f"\n[!] The story '{selected_story.get('title')}' has no comments yet.")
+                    time.sleep(1.5)
+                    continue
+
+                # 2. CLEAR and SHOW HEADER (The part that was missing)
                 clear_screen()
                 art.print_logo()
                 print(f"STORY: {selected_story.get('title')}")
                 print(f"URL:   {selected_story.get('url', 'No external link')}")
+                print(f"SCORE: {selected_story.get('score', 0)} | AUTHOR: {selected_story.get('by', 'N/A')}")
                 print("-" * 60)
                 
-                comment_ids = selected_story.get('kids', [])
+                # 3. Enter the comment viewer
                 display_comments(comment_ids)
+                
         except (ValueError, IndexError):
-            # Ignore invalid inputs and restart loop
             continue
 
 if __name__ == "__main__":
