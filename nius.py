@@ -88,10 +88,10 @@ def format_hn_text(raw_html):
 # --- VIEW LAYOUTS ---
 
 def display_comments(comment_ids):
-    """Renders comments in a threaded view with ESC/B navigation."""
+    """Renders comments with ESC/B navigation and Q to Quit."""
     if not comment_ids:
-        print("No comments found for this story.")
-        return
+        print("No comments found.")
+        return 
 
     for c_id in comment_ids:
         comment = fetch_item(c_id)
@@ -110,16 +110,19 @@ def display_comments(comment_ids):
                 slow_print(line, delay=DELAY_NORMAL)
         
         print(f"\n{'='*30}")
-        print("[ESC] Next Comment | [B] Back to Feed")
+        print("[ESC] Next | [B] Back to Feed | [Q] Quit")
         print(f"{'='*30}")
 
         # Input loop for comment navigation
         while True:
-            cmd = get_char()
-            if cmd == '\x1b':  # ESC key
+            cmd = get_char().lower() # Normalize to lowercase
+            if cmd == '\x1b':  # ESC
                 break
-            elif cmd.lower() == 'b':
+            elif cmd == 'b':   # Back to Feed
                 return 
+            elif cmd == 'q':   # Global Quit
+                print("\nStay curious. Goodbye!")
+                sys.exit(0) # Immediately stops the script 
     
     input("\n--- End of thread. Press Enter to return ---")
 
