@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NIUS // Project Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nius | Terminal Browser</title>
     <style>
         :root {
             --glow: #00ff41;
@@ -12,79 +13,103 @@
             background-color: var(--bg);
             color: var(--glow);
             font-family: 'Courier New', Courier, monospace;
-            padding: 5vw;
-            line-height: 1.5;
-            text-shadow: 0 0 5px var(--glow);
+            padding: 40px 20px;
+            line-height: 1.6;
+            text-align: center;
+            text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
         }
-        /* Scanline Overlay */
-        body::after {
-            content: " ";
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
-            background-size: 100% 3px, 3px 100%;
-            pointer-events: none;
+        pre {
+            display: inline-block;
+            text-align: left;
+            margin: 20px 0;
+            font-size: 10px; /* Adjusted for larger ASCII art */
+            line-height: 1.1;
         }
-        #display { white-space: pre-wrap; margin-bottom: 20px; }
-        .links { 
-            display: none; /* Hidden until typing finishes */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .status {
+            font-weight: bold;
+            margin: 20px 0;
             border-top: 1px solid var(--glow);
-            padding-top: 20px;
+            border-bottom: 1px solid var(--glow);
+            padding: 10px 0;
         }
-        a {
+        .content-block {
+            text-align: left;
+            margin: 30px auto;
+            max-width: 600px;
+        }
+        h2 {
+            border-bottom: 1px solid var(--glow);
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        ul {
+            list-style-type: "> ";
+            padding-left: 20px;
+        }
+        .footer {
+            margin-top: 50px;
+        }
+        .btn {
             color: var(--bg);
             background-color: var(--glow);
-            padding: 5px 15px;
+            padding: 8px 16px;
             text-decoration: none;
-            margin-right: 15px;
+            margin: 0 10px;
             font-weight: bold;
             display: inline-block;
         }
-        a:hover { background-color: #fff; box-shadow: 0 0 15px #fff; }
-        .cursor { display: inline-block; width: 10px; height: 1.2em; background: var(--glow); animation: blink 0.8s infinite; }
-        @keyframes blink { 50% { opacity: 0; } }
+        .btn:hover {
+            background-color: #fff;
+            box-shadow: 0 0 20px #fff;
+        }
     </style>
 </head>
 <body>
-    <div id="display"></div><span id="cursor" class="cursor"></span>
+    <div class="container">
+        <pre>
+ ███╗   ██╗██╗██╗   ██╗███████╗
+ ████╗  ██║██║██║   ██║██╔════╝
+ ██╔██╗ ██║██║██║   ██║███████╗
+ ██║╚██╗██║██║██║   ██║╚════██║
+ ██║ ╚████║██║╚██████╔╝███████║
+ ╚═╝  ╚═══╝╚═╝ ╚═════╝ ╚══════╝
+    TERMINAL HACKER NEWS BROWSER V.1.0        
+        </pre>
 
-    <div id="nav" class="links">
-        <a href="https://github.com/nomagev/nius">VIEW REPOSITORY</a>
-        <a href="https://github.com/nomagev/nius/blob/main/LICENSE">GPL 2.0 LICENSE</a>
+        <div class="status"># System Status: Online</div>
+
+        <div class="content-block">
+            <p>Nius is a minimalist, distraction-free Hacker News client built for the terminal. It provides a retro-styled interface for staying updated with tech news without the noise of a modern browser.</p>
+        </div>
+
+        <div class="content-block">
+            <h2>> FEATURES</h2>
+            <ul>
+                <li>Typewriter Visual Effects</li>
+                <li>Markdown-to-Terminal Formatting</li>
+                <li>Single-Key Navigation (ESC/B)</li>
+                <li>Ultra-Lightweight API Integration</li>
+            </ul>
+        </div>
+
+        <div class="content-block">
+            <h2>> NAVIGATION</h2>
+            <ul>
+                <li>[Number] Open Story & Comments</li>
+                <li>[ESC] Scroll through Comments</li>
+                <li>[B] Return to Feed</li>
+                <li>[Q] Exit Application</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <a href="https://github.com/nomagev/nius" class="btn">[ VIEW SOURCE CODE ]</a>
+            <a href="https://github.com/nomagev/nius/blob/main/LICENSE" class="btn">[ GPL 2.0 LICENSE ]</a>
+        </div>
     </div>
-
-    <script>
-        const text = `INITIALIZING NIUS PROTOCOL...
-------------------------------
-PROJECT: NIUS TERMINAL BROWSER
-DEPS:    PYTHON 3.10+
-LICENSE: GNU GPL v2.0
-
-> Hacker News integration: OK
-> Retro-typewriter FX:    ENABLED
-> Markdown Support:      ACTIVE
-
-SYSTEM SUMMARY:
-Nius is a minimalist tool designed for focused reading of the 
-Hacker News feed directly from the CLI. 
-
-ACCESS GRANTED.`;
-
-        let i = 0;
-        const speed = 15; // Faster for better UX
-
-        function type() {
-            if (i < text.length) {
-                document.getElementById("display").innerHTML += text.charAt(i);
-                i++;
-                setTimeout(type, speed);
-            } else {
-                document.getElementById("cursor").style.display = "none";
-                document.getElementById("nav").style.display = "block";
-            }
-        }
-        window.onload = type;
-    </script>
 </body>
 </html>
