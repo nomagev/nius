@@ -2,77 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NIUS // Terminal</title>
+    <title>NIUS // Project Home</title>
     <style>
         :root {
-            --green: #1aff1a;
-            --bg: #050505;
+            --glow: #00ff41;
+            --bg: #0d0208;
         }
         body {
             background-color: var(--bg);
-            color: var(--green);
+            color: var(--glow);
             font-family: 'Courier New', Courier, monospace;
-            padding: 40px;
-            line-height: 1.2;
-            overflow: hidden; /* Keeps the retro feel contained */
+            padding: 5vw;
+            line-height: 1.5;
+            text-shadow: 0 0 5px var(--glow);
         }
-        /* The CRT Scanline Effect */
-        body::before {
+        /* Scanline Overlay */
+        body::after {
             content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
-                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 3px, 3px 100%;
             pointer-events: none;
-            z-index: 2;
         }
-        #terminal { white-space: pre-wrap; }
-        .cursor {
+        #display { white-space: pre-wrap; margin-bottom: 20px; }
+        .links { 
+            display: none; /* Hidden until typing finishes */
+            border-top: 1px solid var(--glow);
+            padding-top: 20px;
+        }
+        a {
+            color: var(--bg);
+            background-color: var(--glow);
+            padding: 5px 15px;
+            text-decoration: none;
+            margin-right: 15px;
+            font-weight: bold;
             display: inline-block;
-            width: 10px;
-            height: 18px;
-            background-color: var(--green);
-            animation: blink 1s step-end infinite;
-            vertical-align: middle;
         }
+        a:hover { background-color: #fff; box-shadow: 0 0 15px #fff; }
+        .cursor { display: inline-block; width: 10px; height: 1.2em; background: var(--glow); animation: blink 0.8s infinite; }
         @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
-    <div id="terminal"></div><span class="cursor"></span>
+    <div id="display"></div><span id="cursor" class="cursor"></span>
+
+    <div id="nav" class="links">
+        <a href="https://github.com/nomagev/nius">VIEW REPOSITORY</a>
+        <a href="https://github.com/nomagev/nius/blob/main/LICENSE">GPL 2.0 LICENSE</a>
+    </div>
 
     <script>
-        const content = `> CONNECT 192.168.1.1
-> LOADING NIUS...
-> SYSTEM READY.
+        const text = `INITIALIZING NIUS PROTOCOL...
+------------------------------
+PROJECT: NIUS TERMINAL BROWSER
+DEPS:    PYTHON 3.10+
+LICENSE: GNU GPL v2.0
 
-[ NIUS TERMINAL BROWSER ]
--------------------------
-A minimalist, terminal-based 
-Hacker News client built with 
-Python and a touch of nostalgia.
+> Hacker News integration: OK
+> Retro-typewriter FX:    ENABLED
+> Markdown Support:      ACTIVE
 
-LICENSE: GPL 2.0
-STATUS: ACTIVE
+SYSTEM SUMMARY:
+Nius is a minimalist tool designed for focused reading of the 
+Hacker News feed directly from the CLI. 
 
-> Type 'help' for commands...
-> _`;
+ACCESS GRANTED.`;
 
-        const terminal = document.getElementById('terminal');
         let i = 0;
+        const speed = 15; // Faster for better UX
 
-        function typeWriter() {
-            if (i < content.length) {
-                terminal.innerHTML += content.charAt(i);
+        function type() {
+            if (i < text.length) {
+                document.getElementById("display").innerHTML += text.charAt(i);
                 i++;
-                // Randomize speed slightly for a "human" feel
-                setTimeout(typeWriter, Math.random() * 50 + 20);
+                setTimeout(type, speed);
+            } else {
+                document.getElementById("cursor").style.display = "none";
+                document.getElementById("nav").style.display = "block";
             }
         }
-
-        window.onload = typeWriter;
+        window.onload = type;
     </script>
 </body>
 </html>
