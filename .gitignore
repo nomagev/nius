@@ -6,6 +6,9 @@ venv/
 __pycache__/
 *.py[cod]
 
-# Nius Local Data (Backlog Item #4/7)
+# Nius Local Data
 .recovery_cache
 *.log
+
+# DS_Store
+.DS_Store

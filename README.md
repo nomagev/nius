@@ -27,9 +27,7 @@ Ensure you are on a Unix-based system (macOS/Linux).
     ./setup.sh
 
 3. **Launch:**
-    ```bash
-    source venv/bin/activate
-    python nius.py
+    ./run.sh
 
 ## Features
 - **Cinematic Rendering:** Text is written in real-time with a "typewriter" effect.
