@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NIUS // Terminal</title>
+    <style>
+        :root {
+            --green: #1aff1a;
+            --bg: #050505;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--green);
+            font-family: 'Courier New', Courier, monospace;
+            padding: 40px;
+            line-height: 1.2;
+            overflow: hidden; /* Keeps the retro feel contained */
+        }
+        /* The CRT Scanline Effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 2;
+        }
+        #terminal { white-space: pre-wrap; }
+        .cursor {
+            display: inline-block;
+            width: 10px;
+            height: 18px;
+            background-color: var(--green);
+            animation: blink 1s step-end infinite;
+            vertical-align: middle;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+    <div id="terminal"></div><span class="cursor"></span>
+
+    <script>
+        const content = `> CONNECT 192.168.1.1
+> LOADING NIUS...
+> SYSTEM READY.
+
+[ NIUS TERMINAL BROWSER ]
+-------------------------
+A minimalist, terminal-based 
+Hacker News client built with 
+Python and a touch of nostalgia.
+
+LICENSE: GPL 2.0
+STATUS: ACTIVE
+
+> Type 'help' for commands...
+> _`;
+
+        const terminal = document.getElementById('terminal');
+        let i = 0;
+
+        function typeWriter() {
+            if (i < content.length) {
+                terminal.innerHTML += content.charAt(i);
+                i++;
+                // Randomize speed slightly for a "human" feel
+                setTimeout(typeWriter, Math.random() * 50 + 20);
+            }
+        }
+
+        window.onload = typeWriter;
+    </script>
+</body>
+</html>
