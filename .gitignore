@@ -1,0 +1,11 @@
+# Environments
+venv/
+.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Nius Local Data (Backlog Item #4/7)
+.recovery_cache
+*.log
