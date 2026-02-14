@@ -10,7 +10,7 @@
 
 Nius.py (pronounced "News PY") is a lightweight Python utility designed to browse Hacker News headers and comments directly from your terminal. No heavy UX, no tracking—just the data.
 
-![Nius Terminal Screenshot](img/Nius-on-CRT.png)
+![Nius Terminal Screenshot](img/Nius-CRT.png)
 
 ## Requirements
 
